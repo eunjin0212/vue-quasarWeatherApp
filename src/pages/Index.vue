@@ -1,10 +1,15 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
+  <q-page class="flex column">
+<div class="col q-pt-lg q-px-md">
+      <q-input color="purple-12" v-model="text" placeholder="Search" dark borderless>
+        <template v-slot:before>
+          <q-icon name="my_location" />
+        </template>
+        <template v-slot:append>
+          <q-btn round dense flat icon="search" />
+        </template>
+      </q-input>
+</div>
   </q-page>
 </template>
 
@@ -15,3 +20,8 @@ export default defineComponent({
   name: 'PageIndex',
 });
 </script>
+<style lang="sass">
+.q-page
+  background: linear-gradient(to bottom, #136a8a, #267871)
+
+</style>
