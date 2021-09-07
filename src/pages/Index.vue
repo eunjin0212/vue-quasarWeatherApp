@@ -66,11 +66,19 @@ export default defineComponent({
   methods: {
     getLoction() {
       this.$q.loading.show();
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lon = position.coords.longitude;
-        this.getWeatherByCoords();
-      });
+      if (this.$q.platform.is.electron) {
+        axios.get('https://freegeoip.app/json/').then((resp) => {
+          this.lat = resp.data.latitude;
+          this.lon = resp.data.longitude;
+          this.getWeatherByCoords();
+        });
+      } else {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.lat = position.coords.latitude;
+          this.lon = position.coords.longitude;
+          this.getWeatherByCoords();
+        });
+      }
     },
     getWeatherByCoords() {
       this.$q.loading.show();
@@ -88,9 +96,11 @@ export default defineComponent({
           this.weatherData = response.data;
           this.$q.loading.hide();
         })
-        .catch(() => {
-          this.$q.loading.hide();
-          this.msg = 'Not Found City 😥';
+        .catch((error) => {
+          if (error.response.status === 404) {
+            this.$q.loading.hide();
+            this.msg = 'Not Found City 😥';
+          }
         });
     },
   },
@@ -111,9 +121,9 @@ export default defineComponent({
 .q-page
   background: linear-gradient(to bottom, #136a8a, #267871)
   &.bg-night
-      background: linear-gradient(to bottom, #232526, #414345)
+    background: linear-gradient(to bottom, #232526, #414345)
   &.bg-day
-      background: linear-gradient(to bottom, #00b4db, #0083b0)
+    background: linear-gradient(to bottom, #00b4db, #0083b0)
 .degree
   top: -44px
 .skyline
