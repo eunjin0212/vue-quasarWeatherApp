@@ -39,7 +39,7 @@
         <div class="col text-h2 text-weight-thin">Quasar<br />Weather</div>
         <q-btn class="col" @click="getLoction" flat>
           <q-icon left size="3em" name="my_location" />
-          <div>Find my Location</div>
+          <div v-text="msg"></div>
         </q-btn>
       </div>
     </template>
@@ -60,10 +60,12 @@ export default defineComponent({
       lon: null,
       apiUrl: 'https://api.openweathermap.org/data/2.5/weather?',
       apiKey: '4658b2072b0daa8e1e75d5bbd6358604',
+      msg: 'Find my Location',
     };
   },
   methods: {
     getLoction() {
+      this.$q.loading.show();
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lon = position.coords.longitude;
@@ -71,19 +73,25 @@ export default defineComponent({
       });
     },
     getWeatherByCoords() {
+      this.$q.loading.show();
       axios(
         `${this.apiUrl}lat=${this.lat}&lon=${this.lon}&appid=${this.apiKey}&units=metric`
       ).then((res) => {
         this.weatherData = res.data;
+        this.$q.loading.hide();
       });
     },
     getWeatherBySearch() {
-      console.log('get');
-      axios(
-        `${this.apiUrl}?q=${this.search}&appid=${this.apiKey}&units=metric`
-      ).then((res) => {
-        this.weatherData = res.data;
-      });
+      this.$q.loading.show();
+      axios(`${this.apiUrl}q=${this.search}&appid=${this.apiKey}`)
+        .then((response) => {
+          this.weatherData = response.data;
+          this.$q.loading.hide();
+        })
+        .catch(() => {
+          this.$q.loading.hide();
+          this.msg = 'Not Found City 😥';
+        });
     },
   },
   computed: {
