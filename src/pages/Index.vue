@@ -129,7 +129,7 @@ export default defineComponent({
 .skyline
   background: url(../../town.png)
   background-size: contain
-  background-position: center bottom
+  background-position-y: 9px
   flex: 0 0 100px
 </style>
 /* flex-grow | flex-shrink | flex-basis */
