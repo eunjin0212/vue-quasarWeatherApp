@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex column">
+  <q-page class="flex column" :class="bgClass">
     <div class="col q-pt-lg q-px-md">
       <q-input
         color="purple-12"
@@ -77,12 +77,35 @@ export default defineComponent({
         this.weatherData = res.data;
       });
     },
+    getWeatherBySearch() {
+      console.log('get');
+      axios(
+        `${this.apiUrl}?q=${this.search}&appid=${this.apiKey}&units=metric`
+      ).then((res) => {
+        this.weatherData = res.data;
+      });
+    },
+  },
+  computed: {
+    bgClass() {
+      if (this.weatherData) {
+        if (this.weatherData.weather[0].icon.endsWith('n')) {
+          return 'bg-night';
+        }
+        return 'bg-day';
+      }
+      return null;
+    },
   },
 });
 </script>
 <style lang="sass">
 .q-page
   background: linear-gradient(to bottom, #136a8a, #267871)
+  &.bg-night
+      background: linear-gradient(to bottom, #232526, #414345)
+  &.bg-day
+      background: linear-gradient(to bottom, #00b4db, #0083b0)
 .degree
   top: -44px
 .skyline
