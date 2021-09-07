@@ -11,11 +11,12 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.13.14",
+    "@babel/eslint-parser": "^7.15.4",
     "@quasar/app": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
     "@typescript-eslint/parser": "^4.31.0",
