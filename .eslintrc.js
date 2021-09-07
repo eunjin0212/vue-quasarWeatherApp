@@ -28,13 +28,15 @@ module.exports = {
       // 'plugin:vue/vue3-recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
   
       'airbnb-base',
-      'eslint:recommended', 'plugin:prettier/recommended'
+      'eslint:recommended',
+      'plugin:prettier/recommended'
     ],
   
     plugins: [
       // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
       // required to lint *.vue files
-      'vue','prettier',
+      'vue',
+      'prettier',
   
     ],
   
